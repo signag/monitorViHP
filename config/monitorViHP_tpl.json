@@ -1,0 +1,276 @@
+{
+    "measurementInterval": 120,
+    "vicareClient_id": "",
+    "vicareEmail": "",
+    "vicarePassword": "",
+    "vicareInstallation": "",
+    "vicareDevice": "",
+    "InfluxOutput": true,
+    "InfluxURL": "",
+    "InfluxOrg": "",
+    "InfluxToken": "",
+    "InfluxBucket": "ViHP",
+    "csvOutput": false,
+    "csvDir": "",
+    "vicareData": [
+        {
+            "measurement": "heatpump",
+            "csvFile": "heatpump.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "outside_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.sensors.temperature.outside",
+                        "formula": "properties['value']['value']"
+                    }
+                },
+                {
+                    "name": "boiler_common_supply_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.boiler.sensors.temperature.commonSupply",
+                        "formula": "properties['value']['value']"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "compressor",
+            "csvFile": "compressor.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                },
+                {
+                    "name": "compressor_id",
+                    "value": {
+                        "source": "value",
+                        "feature": "0"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0",
+                        "formula": "1 if properties['active']['value'] == True else 0"
+                    }
+                },
+                {
+                    "name": "starts",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.statistics",
+                        "formula": "properties['starts']['value']"
+                    }
+                },
+                {
+                    "name": "hours",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.statistics",
+                        "formula": "properties['hours']['value']"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "buffer_cylinder",
+            "csvFile": "buffer.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "temperature_main",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.bufferCylinder.sensors.temperature.main",
+                        "formula": "properties['value']['value']"
+                    }
+                },
+                {
+                    "name": "starts",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.statistics",
+                        "formula": "properties['starts']['value']"
+                    }
+                },
+                {
+                    "name": "hours",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.statistics",
+                        "formula": "properties['hours']['value']"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "circuit",
+            "csvFile": "circuit.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                },
+                {
+                    "name": "circuit_id",
+                    "value": {
+                        "source": "value",
+                        "feature": "0"
+                    }
+                },
+                {
+                    "name": "circuit_name",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0",
+                        "formula": "properties['name']['value']"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0",
+                        "formula": "1 if properties['active']['value'] == True else 0"
+                    }
+                },
+                {
+                    "name": "circulation_pump_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.circulation.pump",
+                        "formula": "0 if properties['status']['value'] == 'off' else 1"
+                    }
+                },
+                {
+                    "name": "temperature_supply",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.sensors.temperature.supply",
+                        "formula": "properties['value']['value']"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "circuit",
+            "csvFile": "circuit.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                },
+                {
+                    "name": "circuit_id",
+                    "value": {
+                        "source": "value",
+                        "feature": "1"
+                    }
+                },
+                {
+                    "name": "circuit_name",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1",
+                        "formula": "properties['name']['value']"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1",
+                        "formula": "1 if properties['active']['value'] == True else 0"
+                    }
+                },
+                {
+                    "name": "circulation_pump_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.circulation.pump",
+                        "formula": "0 if properties['status']['value'] == 'off' else 1"
+                    }
+                },
+                {
+                    "name": "temperature_supply",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.sensors.temperature.supply",
+                        "formula": "properties['value']['value']"
+                    }
+                }
+            ]
+        }
+    ]
+}
