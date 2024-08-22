@@ -618,7 +618,7 @@ def dictFromFeatureList(features: list) -> dict:
 getCl()
 
 logger.info("=============================================================")
-logger.info("monitorViHP started")
+logger.info("monitorViHP V1.0 started")
 logger.info("=============================================================")
 
 # Get configuration
