@@ -471,6 +471,15 @@ def getTagOrField(features: dict, tfCfg: dict, measurement: str, type: str) -> d
                 formulaCfg = valCfg["formula"]
             else:
                 raise ValueError(f"formula missing in vicareData / {measurement} / {type} / {nameCfg}")
+            if type == "tags":
+                typeCfg = "str"
+            else:
+                if "type" in valCfg:
+                    typeCfg = valCfg["type"]
+                else:
+                    raise ValueError(
+                        f"type missing in vicareData / {measurement} / {type} / {nameCfg}"
+                    )
             if featureCfg in features:
                 properties = features[featureCfg]
                 try:
@@ -479,6 +488,17 @@ def getTagOrField(features: dict, tfCfg: dict, measurement: str, type: str) -> d
                     raise ValueError(
                         f"formula invalid for vicareData / {measurement} / {type} / {nameCfg}: {str(e)}"
                     )
+                if typeCfg == "int":
+                    value = int(value)
+                elif typeCfg == "float":
+                    value = float(value)
+                elif typeCfg == "str":
+                    value = str(value)
+                else:
+                    raise ValueError(
+                        f"type {typeCfg} invalid for vicareData / {measurement} / {type} / {nameCfg}: {str(e)}"
+                    )
+
             else:
                 raise ValueError(
                     f"feature {measurement} / {type} {featureCfg} not found in ViCare features"

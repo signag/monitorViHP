@@ -38,7 +38,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.sensors.temperature.outside",
-                        "formula": "properties['value']['value']"
+                        "formula": "properties['value']['value']",
+                        "type": "float"
                     }
                 },
                 {
@@ -46,7 +47,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.boiler.sensors.temperature.commonSupply",
-                        "formula": "properties['value']['value']"
+                        "formula": "properties['value']['value']",
+                        "type": "float"
                     }
                 }
             ]
@@ -83,7 +85,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.compressors.0",
-                        "formula": "1 if properties['active']['value'] == True else 0"
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
                     }
                 },
                 {
@@ -91,7 +94,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.compressors.0.statistics",
-                        "formula": "properties['starts']['value']"
+                        "formula": "properties['starts']['value']",
+                        "type": "int"
                     }
                 },
                 {
@@ -99,7 +103,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.compressors.0.statistics",
-                        "formula": "properties['hours']['value']"
+                        "formula": "properties['hours']['value']",
+                        "type": "int"
                     }
                 }
             ]
@@ -129,23 +134,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.bufferCylinder.sensors.temperature.main",
-                        "formula": "properties['value']['value']"
-                    }
-                },
-                {
-                    "name": "starts",
-                    "value": {
-                        "source": "vicare",
-                        "feature": "heating.compressors.0.statistics",
-                        "formula": "properties['starts']['value']"
-                    }
-                },
-                {
-                    "name": "hours",
-                    "value": {
-                        "source": "vicare",
-                        "feature": "heating.compressors.0.statistics",
-                        "formula": "properties['hours']['value']"
+                        "formula": "properties['value']['value']",
+                        "type": "float"
                     }
                 }
             ]
@@ -190,7 +180,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.circuits.0",
-                        "formula": "1 if properties['active']['value'] == True else 0"
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
                     }
                 },
                 {
@@ -198,7 +189,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.circuits.0.circulation.pump",
-                        "formula": "0 if properties['status']['value'] == 'off' else 1"
+                        "formula": "0 if properties['status']['value'] == 'off' else 1",
+                        "type": "int"
                     }
                 },
                 {
@@ -206,7 +198,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.circuits.0.sensors.temperature.supply",
-                        "formula": "properties['value']['value']"
+                        "formula": "properties['value']['value']",
+                        "type": "float"
                     }
                 }
             ]
@@ -251,7 +244,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.circuits.1",
-                        "formula": "1 if properties['active']['value'] == True else 0"
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
                     }
                 },
                 {
@@ -259,7 +253,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.circuits.1.circulation.pump",
-                        "formula": "0 if properties['status']['value'] == 'off' else 1"
+                        "formula": "0 if properties['status']['value'] == 'off' else 1",
+                        "type": "int"
                     }
                 },
                 {
@@ -267,7 +262,8 @@
                     "value": {
                         "source": "vicare",
                         "feature": "heating.circuits.1.sensors.temperature.supply",
-                        "formula": "properties['value']['value']"
+                        "formula": "properties['value']['value']",
+                        "type": "float"
                     }
                 }
             ]
