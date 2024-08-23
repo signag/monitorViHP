@@ -618,7 +618,7 @@ def dictFromFeatureList(features: list) -> dict:
 getCl()
 
 logger.info("=============================================================")
-logger.info("monitorViHP V1.0 started")
+logger.info("monitorViHP V1.1 started")
 logger.info("=============================================================")
 
 # Get configuration
@@ -627,6 +627,7 @@ getConfig()
 fb = None
 influxClient = None
 influxWriteAPI = None
+stop = False
 
 try:
     # Instatntiate InfluxDB access
@@ -650,17 +651,12 @@ try:
     session = getPyViCareSession()
 except Exception as error:
     logger.critical("Unexpected Exception (%s): %s", error.__class__, error.__cause__)
-    logger.critical("Unexpected Exception: %s", error.message)
+    logger.critical("Unexpected Exception: %s", error)
     logger.critical("Could not get ViCare access")
     stop = True
 
 noWait = False
 waitUntilMidnight = False
-stop = False
-failcount = 0
-loggedIn = False
-newLoginMax = math.floor(3599 / cfg["measurementInterval"])
-newLoginCount = 0
 
 while not stop:
     try:
@@ -672,12 +668,12 @@ while not stop:
         waitUntilMidnight = False
 
         logger.info("monitorViHP - cycle started")
-        local_datetime = datetime.datetime.now()
-        local_datetime_timestamp = round(local_datetime.timestamp())
-        UTC_datetime_converted = datetime.datetime.utcfromtimestamp(
-            local_datetime_timestamp
+        UTC_datetime = datetime.datetime.now(tz=datetime.timezone.utc)
+        UTC_timestampRounded = round(UTC_datetime.timestamp())
+        UTC_datetimeRounded = datetime.datetime.fromtimestamp(
+            UTC_timestampRounded, tz=datetime.timezone.utc
         )
-        mTS = UTC_datetime_converted.strftime("%Y-%m-%dT%H:%M:%S.%f000Z")
+        mTS = UTC_datetimeRounded.strftime("%Y-%m-%dT%H:%M:%S.%f000Z")
 
         # Get all Features
         d = int(cfg["vicareDevice"])
