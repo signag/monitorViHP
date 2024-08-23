@@ -71,16 +71,15 @@ def getCl():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description="""
-    This program periodically reads data from an openEMS Energy Management System
+    This program periodically reads data from Viessmann ViCare controlling a heating system
     and stores these as measurements in an InfluxDB database.
 
     If not otherwises specified on the command line, a configuration file
        monitorViHP.json
     will be searched sequentially under ./tests/data, ./config, $HOME/.config or /etc.
 
-    This configuration file specifies credentials for EMS access,
-    the data to read, the connection to the InfluxDB and other runtime parameters.
-    The configuration file also defines the EMS datapoints which will be stored as measurements.
+    This configuration file specifies credentials for ViCare access,
+    the connection to the InfluxDB and datapoint definitions.
     """,
     )
     parser.add_argument(
@@ -618,7 +617,7 @@ def dictFromFeatureList(features: list) -> dict:
 getCl()
 
 logger.info("=============================================================")
-logger.info("monitorViHP V1.1 started")
+logger.info("monitorViHP V1.2 started")
 logger.info("=============================================================")
 
 # Get configuration
