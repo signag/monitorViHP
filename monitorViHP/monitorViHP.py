@@ -17,7 +17,12 @@ import json
 import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
 from PyViCare.PyViCare import PyViCare
-from PyViCare.PyViCareUtils import PyViCareRateLimitError
+from PyViCare.PyViCareUtils import (
+    PyViCareBrowserOAuthTimeoutReachedError,
+    PyViCareCommandError,
+    PyViCareInternalServerError,
+    PyViCareRateLimitError,
+)
 
 # Set up logging
 import logging
@@ -617,7 +622,7 @@ def dictFromFeatureList(features: list) -> dict:
 getCl()
 
 logger.info("=============================================================")
-logger.info("monitorViHP V1.2 started")
+logger.info("monitorViHP V1.3 started")
 logger.info("=============================================================")
 
 # Get configuration
@@ -629,7 +634,7 @@ influxWriteAPI = None
 stop = False
 
 try:
-    # Instatntiate InfluxDB access
+    # Instantiate InfluxDB access
     if cfg["InfluxOutput"]:
         influxClient = influxdb_client.InfluxDBClient(
             url=cfg["InfluxURL"], token=cfg["InfluxToken"], org=cfg["InfluxOrg"]
@@ -645,17 +650,9 @@ except Exception as error:
     influxClient = None
     influxWriteAPI = None
 
-try:
-    # Log in ViCare
-    session = getPyViCareSession()
-except Exception as error:
-    logger.critical("Unexpected Exception (%s): %s", error.__class__, error.__cause__)
-    logger.critical("Unexpected Exception: %s", error)
-    logger.critical("Could not get ViCare access")
-    stop = True
-
 noWait = False
 waitUntilMidnight = False
+serverErrorWait = 2 * cfg["measurementInterval"] if cfg["measurementInterval"] > 300 else 300
 
 while not stop:
     try:
@@ -674,6 +671,9 @@ while not stop:
         )
         mTS = UTC_datetimeRounded.strftime("%Y-%m-%dT%H:%M:%S.%f000Z")
 
+        # Get session
+        session = getPyViCareSession()
+
         # Get all Features
         d = int(cfg["vicareDevice"])
         device = session.devices[d]
@@ -686,6 +686,10 @@ while not stop:
             for measurement in measurements:
                 storeViCaraData(influxWriteAPI, featureDict, measurement)
 
+        del session
+
+        serverErrorWait = 2 * cfg["measurementInterval"] if cfg["measurementInterval"] > 300 else 300
+
         logger.info("monitorViHP - cycle completed")
 
         if testRun:
@@ -695,15 +699,46 @@ while not stop:
     except PyViCareRateLimitError as error:
         stop = False
         waitUntilMidnight = True
-        logger.error("Rate limit reached: %s", error)
+        serverErrorWait = 2 * cfg["measurementInterval"] if cfg["measurementInterval"] > 300 else 300
+        logger.error("Rate limit reached: %s. Waiting untilmidnight", error)
+
+    except PyViCareInternalServerError as error:
+        logger.error(
+            "PyViCareInternalServerError error %s. Waiting %s sec",
+            error,
+            serverErrorWait,
+        )
+        time.sleep(serverErrorWait)
+        if serverErrorWait < 3600 * 4:
+            serverErrorWait = serverErrorWait * 2
+
+    except PyViCareBrowserOAuthTimeoutReachedError as error:
+        logger.error(
+            "PyViCareBrowserOAuthTimeoutReachedError error %s. Waiting %s sec",
+            error,
+            serverErrorWait,
+        )
+        time.sleep(serverErrorWait)
+        if serverErrorWait < 3600 * 4:
+            serverErrorWait = serverErrorWait * 2
+
+    except PyViCareCommandError as error:
+        logger.error(
+            "PyViCareCommandError error %s. Waiting %s sec", error, serverErrorWait
+        )
+        time.sleep(serverErrorWait)
+        if serverErrorWait < 3600 * 4:
+            serverErrorWait = serverErrorWait * 2
 
     except Exception as error:
         stop = True
         logger.critical("Unexpected Exception: %s", error)
         if influxClient:
             del influxClient
+            influxClient = None
         if influxWriteAPI:
             del influxWriteAPI
+            influxWriteAPI = None
         raise error
 
     except KeyboardInterrupt:
@@ -711,8 +746,10 @@ while not stop:
         logger.debug("KeyboardInterrupt")
         if influxClient:
             del influxClient
+            influxClient = None
         if influxWriteAPI:
             del influxWriteAPI
+            influxWriteAPI = None
 if influxClient:
     del influxClient
 if influxWriteAPI:

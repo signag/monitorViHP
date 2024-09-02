@@ -55,7 +55,7 @@ You may alternatively run monitorViHP in a virtual Python environment from the c
 
 1. Login to the [Viessmann Developer Portal](https://app.developer.viessmann.com/) with your existing ViCare app username/password.
 2. On the developer dashboard click add in the clients section.
-3. reate a new client using following data:
+3. Create a new client using following data:
    - Name: PyViCare
    - Google reCAPTCHA: Disabled
    - Redirect URIs: vicare://oauth-callback/everest
@@ -64,6 +64,8 @@ You may alternatively run monitorViHP in a virtual Python environment from the c
 ## Configuration
 
 Configuration for **monitorViHP** needs to be provided in a specific configuration file.
+
+**NOTE:** See [Running monitorViHP as Python Program](#running-monitorvihp-as-python-program) how you can test that a configuration file is valid.
 
 By default, a configuration file "monitorViHP.json" is searched in the given sequence under ```$ROOT/config```, ```$HOME/.config``` or under ```/etc```. <br>Here, ```$ROOT``` is the project root directory and ```$HOME``` is the home directory of the user running the program.
 
@@ -165,7 +167,7 @@ A template can be found under
 |-- **value**             | Rule for determining the value for the tag or field  |
 |--- source               | Source where to get the value from.<br>May be<br>- "value" if the value is a constant value (only to be used for tags)<br>- "cfg" when referring to this configuration<br>- "vicare" if referring to a specific ViCare feature       |
 |--- feature              | 'Feature' key depending on source:<br>- constant value<br>- key within this configuration<br>- ViCare feature key|
-|--- formula              | Only for ```"source"="vicare"```: Python expression how to get the value from the ```properties``` of the ViCare feature. |
+|--- formula              | Only for ```"source"="vicare"```: Python expression how to get the value from the ```properties``` of the ViCare feature.<br>See [monitorViHP_tpl.json](./config/monitorViHP_tpl.json) for examples |
 |--- type                 | Type with which the value shall be stored in Influx.<br>- "int"<br>- "float"<br>- "str"
 
 ### Getting Tag and Field Values from ViCare Features
@@ -432,18 +434,20 @@ usage: monitorViHP.py [-h] [-t] [-s] [-l] [-L] [-F] [-p LOGFILE] [-f FILE] [-v] 
 
 This package includes a small [getViCareInstallation.py](./tryViCareApi/getViCareInstallation.py) Python program which can be used to get information on your installation from ViCare.
 
-Before usage, copy this file to ```$PARENTDIR/tests``` and name it according to your needs.
-(```$PARENTDIR/tests``` is ignored by git)
+Before usage, copy this file to ```$PARENT/tests```.
+(```$PARENT/tests``` is ignored by git)
 
-1. Set 'client_id', 'email' and 'password' for your ViCare access (See [Gaining Access to ViCare Developer Portal](#gaining-access-to-vicare-developer-portal))
-2. Run the program in the [virtual environment for monitorViHP](#running-monitorvihp-as-python-program).<br>```python getViCareInstallation.py```<br>The program will print out general information on your installation, among others: the installation ID
+1. Edit ```$PARENT/tests/getViCareInstallation.py``` and set 'client_id', 'email' and 'password' for your ViCare access (See [Gaining Access to ViCare Developer Portal](#gaining-access-to-vicare-developer-portal))
+2. Change to the ```$PARENT/monitorViHP``` directory and activate the virtual environment, if not already done:<br>```.venv\Scripts\activate``` (Windows)<br>```source .venv/bin/activate``` (Linux)
+3. Run the program:<br>```python tests/getViCareInstallation.py```<br>The program will print out general information on your installation, among others: the **Installation ID**
 
 ## How to get a List with ViCare Features
 
 This package includes a small [getViCareAllFeatures.py](./tryViCareApi/getViCareAllFeatures.py) Python program which can be used to generate a list of features available for a device.
 
-Before usage, copy this file to ```$PARENTDIR/tests``` and name it according to your needs.
+Before usage, copy this file to ```$PARENTDIR/tests```.
 (```$PARENTDIR/tests``` is ignored by git)
 
 1. Set 'client_id', 'email' and 'password' for your ViCare access (See [Gaining Access to ViCare Developer Portal](#gaining-access-to-vicare-developer-portal))
-2. Run the program in the [virtual environment for monitorViHP](#running-monitorvihp-as-python-program).<br>```python getViCareAllFeatures.py```<br>The program will print out a JSON structure with all available ViCare features:
+2. Change to the ```$PARENT/monitorViHP``` directory and activate the virtual environment, if not already done:<br>```.venv\Scripts\activate``` (Windows)<br>```source .venv/bin/activate``` (Linux)
+3. Run the program:<br>```python tests/getViCareAllFeatures.py```<br>The program will generate a ```$PARENTDIR/tests/features.json``` file with all available ViCare features.

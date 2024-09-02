@@ -1,12 +1,4 @@
-import sys
-import logging
 from PyViCare.PyViCare import PyViCare
-from functools import wraps
-from typing import Callable
-from PyViCare import Feature
-from PyViCare.PyViCareUtils import PyViCareNotSupportedFeatureError
-import json
-# from myUtils import HandleNotSupported
 
 client_id = ""
 email = ""
