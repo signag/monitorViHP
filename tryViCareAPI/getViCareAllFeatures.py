@@ -17,4 +17,4 @@ fJson = json.dumps(
 )
 with open(file, mode="w", encoding="utf-8") as f:
     f.write(fJson)
-print("Features have been written to %s", file)
+print(f"Features have been written to {file}")
