@@ -450,4 +450,10 @@ Before usage, copy this file to ```$PARENTDIR/tests```.
 
 1. Set 'client_id', 'email' and 'password' for your ViCare access (See [Gaining Access to ViCare Developer Portal](#gaining-access-to-vicare-developer-portal))
 2. Change to the ```$PARENT/monitorViHP``` directory and activate the virtual environment, if not already done:<br>```.venv\Scripts\activate``` (Windows)<br>```source .venv/bin/activate``` (Linux)
-3. Run the program:<br>```python tests/getViCareAllFeatures.py```<br>The program will generate a ```$PARENTDIR/tests/features.json``` file with all available ViCare features.
+3. Run the program:<br>```python tests/getViCareAllFeatures.py```
+ 
+The program will generate the following files in ```$PARENTDIR/tests```
+
+- ```features.json```<br>This file includes all available ViCare features
+- ```features_enabled.json```<br>This file includes only the enabled features
+- ```features_enabled.csv```<br>This is a CSV file with rows for the enabled features and columns for properties for which the type is either 'number', 'string' or 'boolean.
