@@ -358,7 +358,7 @@ def waitForNextCycle(waitUntilMidnight: bool = False):
                 + tNow.second
                 + tNow.microsecond / 1000000
             )
-            + 1
+            + 5 * 60
         )
         time.sleep(waitTimeSec)
 
@@ -622,7 +622,7 @@ def dictFromFeatureList(features: list) -> dict:
 getCl()
 
 logger.info("=============================================================")
-logger.info("monitorViHP V1.3 started")
+logger.info("monitorViHP V1.4 started")
 logger.info("=============================================================")
 
 # Get configuration
