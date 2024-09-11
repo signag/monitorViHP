@@ -531,41 +531,43 @@ def storeViCaraData(influxWriteAPI, features: dict, mCfg: dict):
     point["tags"] = {}
     point["fields"] = {}
 
-    if "tags" in mCfg:
-        tags = mCfg["tags"]
-        point["tags"] = getTagOrField(features, tags, mCfg["measurement"], "tags")
+    try:
+        if "tags" in mCfg:
+            tags = mCfg["tags"]
+            point["tags"] = getTagOrField(features, tags, mCfg["measurement"], "tags")
 
-    if "fields" in mCfg:
-        fields = mCfg["fields"]
-        point["fields"] = getTagOrField(features, fields, mCfg["measurement"], "fields")
+        if "fields" in mCfg:
+            fields = mCfg["fields"]
+            point["fields"] = getTagOrField(features, fields, mCfg["measurement"], "fields")
 
-    if len(point["fields"]) > 0:
-        if cfg["InfluxOutput"] == True:
-            influxWriteAPI.write(cfg["InfluxBucket"], cfg["InfluxOrg"], point)
-            logger.debug(
-                "ViCare data written to Influx DB for measurement %s",
-                mCfg["measurement"]
-            )
-        if cfg["csvOutput"] == True:
-            title = "_measureemnt" + sep + "_time"
-            if len(point["tags"]) > 0:
-                for key, value in point["tags"].items():
+        if len(point["fields"]) > 0:
+            if cfg["InfluxOutput"] == True:
+                influxWriteAPI.write(cfg["InfluxBucket"], cfg["InfluxOrg"], point)
+                logger.debug(
+                    "ViCare data written to Influx DB for measurement %s",
+                    mCfg["measurement"]
+                )
+            if cfg["csvOutput"] == True:
+                title = "_measureemnt" + sep + "_time"
+                if len(point["tags"]) > 0:
+                    for key, value in point["tags"].items():
+                        title = title + sep + key
+                for key, value in point["fields"].items():
                     title = title + sep + key
-            for key, value in point["fields"].items():
-                title = title + sep + key
-            title = title + "\n"
-            data = point["measurement"] + sep + point["time"]
-            if len(point["tags"]) > 0:
-                for key, value in point["tags"].items():
+                title = title + "\n"
+                data = point["measurement"] + sep + point["time"]
+                if len(point["tags"]) > 0:
+                    for key, value in point["tags"].items():
+                        data = data + sep + value
+                for key, value in point["fields"].items():
                     data = data + sep + value
-            for key, value in point["fields"].items():
-                data = data + sep + value
-            data = data + "\n"
-            writeCsv(csvFile, title, data)
-            logger.debug(
-                "EMS data written to csv file for measurement %s", mCfg["measurement"]
-            )
-
+                data = data + "\n"
+                writeCsv(csvFile, title, data)
+                logger.debug(
+                    "EMS data written to csv file for measurement %s", mCfg["measurement"]
+                )
+    except ValueError as e:
+        logger.error("Value error for measurement %s: %s", mCfg["measurement"], e)
 
 def writeCsv(fp, title, data):
     """
@@ -622,7 +624,7 @@ def dictFromFeatureList(features: list) -> dict:
 getCl()
 
 logger.info("=============================================================")
-logger.info("monitorViHP V1.4 started")
+logger.info("monitorViHP V1.5 started")
 logger.info("=============================================================")
 
 # Get configuration
@@ -739,7 +741,7 @@ while not stop:
         if influxWriteAPI:
             del influxWriteAPI
             influxWriteAPI = None
-        raise error
+        raise
 
     except KeyboardInterrupt:
         stop = True
