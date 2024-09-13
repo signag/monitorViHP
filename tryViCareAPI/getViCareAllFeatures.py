@@ -56,7 +56,7 @@ print(f"Enabled features have been written to {fileEnabled}")
 
 title = "Feature"
 for prp in properties:
-    title = title + csvSep + prp
+    title = title + csvSep + prp + "\n"
 
 with open(fileCSV, mode="w", encoding="utf-8") as f:
     f.write(title)
