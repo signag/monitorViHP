@@ -1,0 +1,829 @@
+{
+    "measurementInterval": 120,
+    "vicareClient_id": "",
+    "vicareEmail": "",
+    "vicarePassword": "",
+    "vicareInstallation": "",
+    "vicareDevice": "",
+    "InfluxOutput": true,
+    "InfluxURL": "",
+    "InfluxOrg": "",
+    "InfluxToken": "",
+    "InfluxBucket": "ViHP",
+    "csvOutput": false,
+    "csvDir": "",
+    "vicareData": [
+        {
+            "measurement": "heatpump",
+            "csvFile": "heatpump.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "outside_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.sensors.temperature.outside",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "boiler_common_supply_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.boiler.sensors.temperature.commonSupply",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "volumetric_flow_return",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.sensors.volumetricFlow.allengra",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "power_consumption_current",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.power.consumption.current",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "power_consumption_dhw_day",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.power.consumption.summary.dhw",
+                        "formula": "properties['currentDay']['value'] if 'currentDay' in properties else 0.0",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "power_consumption_dhw_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.power.consumption.summary.dhw",
+                        "formula": "properties['currentYear']['value'] if 'currentYear' in properties else 0.0",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "power_consumption_heating_day",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.power.consumption.summary.heating",
+                        "formula": "properties['currentDay']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "power_consumption_heating_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.power.consumption.summary.heating",
+                        "formula": "properties['currentYear']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "power_consumption_total_day",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.power.consumption.total",
+                        "formula": "properties['day']['value'][0]",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "power_consumption_total_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.power.consumption.total",
+                        "formula": "properties['year']['value'][0]",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "temperature_return",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.sensors.temperature.return",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "primary_circuit_temperature_supply",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.primaryCircuit.sensors.temperature.supply",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "secondary_circuit_temperature_supply",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.secondaryCircuit.sensors.temperature.supply",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "spf_dhw",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.spf.dhw",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "spf_heating",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.spf.heating",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "spf_total",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.spf.total",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "compressor",
+            "csvFile": "compressor.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                },
+                {
+                    "name": "compressor_id",
+                    "value": {
+                        "source": "value",
+                        "feature": "0"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "starts",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.statistics",
+                        "formula": "properties['starts']['value']",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "hours",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.statistics",
+                        "formula": "properties['hours']['value']",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "power_thermal",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.heat.production.current",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "power_electrical",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.power.consumption.current",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "energy_electrical_dhw_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.power.consumption.dhw",
+                        "formula": "properties['year']['value'][0]",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "energy_electrical_heating_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.power.consumption.heating",
+                        "formula": "properties['year']['value'][0]",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "energy_electrical_total_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.compressors.0.power.consumption.total",
+                        "formula": "properties['year']['value'][0]",
+                        "type": "float"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "heating_rod",
+            "csvFile": "heating_rod.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "power_electrical",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.heatingRod.power.consumption.current",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "energy_electrical_dhw_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.heatingRod.power.consumption.dhw",
+                        "formula": "properties['year']['value'][0]",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "energy_electrical_heating_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.heatingRod.power.consumption.heating",
+                        "formula": "properties['year']['value'][0]",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "energy_electrical_total_year",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.heatingRod.power.consumption.total",
+                        "formula": "properties['year']['value'][0]",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "starts",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.heatingRod.statistics",
+                        "formula": "properties['starts']['value']",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "working_hours",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.heatingRod.statistics",
+                        "formula": "properties['hours']['value']",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "level",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.heatingRod.status",
+                        "formula": "1 if properties['level1']['value'] == True else 2 if properties['level2']['value'] == True else 3 if properties['level3']['value'] == True else 0",
+                        "type": "int"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "buffer_cylinder",
+            "csvFile": "buffer.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "temperature_main",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.bufferCylinder.sensors.temperature.main",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "circuit",
+            "csvFile": "circuit.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                },
+                {
+                    "name": "circuit_id",
+                    "value": {
+                        "source": "value",
+                        "feature": "0"
+                    }
+                },
+                {
+                    "name": "circuit_name",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0",
+                        "formula": "properties['name']['value']"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "circulation_pump_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.circulation.pump",
+                        "formula": "0 if properties['status']['value'] == 'off' else 1",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "temperature_supply",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.sensors.temperature.supply",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "frost_protection",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.frostprotection",
+                        "formula": "0 if properties['status']['value'] == 'off' else 1",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "program_summer_eco",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.operating.programs.summerEco",
+                        "formula": "0 if properties['active']['value'] == False else 1",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "temperature_level_max",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.temperature.levels",
+                        "formula": "properties['max']['value']",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "temperature_level_min",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.temperature.levels",
+                        "formula": "properties['min']['value']",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "heating_curve_shift",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.heating.curve",
+                        "formula": "properties['shift']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_curve_slope",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.heating.curve",
+                        "formula": "properties['slope']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_mode_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.operating.modes.heating",
+                        "formula": "0 if properties['active']['value'] == False else 1",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_normal_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.operating.programs.normalHeating",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "heating_normal_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.operating.programs.normalHeating",
+                        "formula": "properties['temperature']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_comfort_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.operating.programs.comfortHeating",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "heating_comfort_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.operating.programs.comfortHeating",
+                        "formula": "properties['temperature']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_reduced_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.operating.programs.reducedHeating",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "heating_reduced_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.operating.programs.reducedHeating",
+                        "formula": "properties['temperature']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "temperature_target",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.0.temperature",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "circuit",
+            "csvFile": "circuit.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                },
+                {
+                    "name": "circuit_id",
+                    "value": {
+                        "source": "value",
+                        "feature": "1"
+                    }
+                },
+                {
+                    "name": "circuit_name",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1",
+                        "formula": "properties['name']['value']"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "circulation_pump_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.circulation.pump",
+                        "formula": "0 if properties['status']['value'] == 'off' else 1",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "temperature_supply",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.sensors.temperature.supply",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "frost_protection",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.frostprotection",
+                        "formula": "0 if properties['status']['value'] == 'off' else 1",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "program_summer_eco",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.operating.programs.summerEco",
+                        "formula": "0 if properties['active']['value'] == False else 1",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "temperature_level_max",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.temperature.levels",
+                        "formula": "properties['max']['value']",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "temperature_level_min",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.temperature.levels",
+                        "formula": "properties['min']['value']",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "heating_curve_shift",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.heating.curve",
+                        "formula": "properties['shift']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_curve_slope",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.heating.curve",
+                        "formula": "properties['slope']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_mode_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.operating.modes.heating",
+                        "formula": "0 if properties['active']['value'] == False else 1",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_normal_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.operating.programs.normalHeating",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "heating_normal_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.operating.programs.normalHeating",
+                        "formula": "properties['temperature']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_comfort_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.operating.programs.comfortHeating",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "heating_comfort_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.operating.programs.comfortHeating",
+                        "formula": "properties['temperature']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "heating_reduced_active",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.operating.programs.reducedHeating",
+                        "formula": "1 if properties['active']['value'] == True else 0",
+                        "type": "int"
+                    }
+                },
+                {
+                    "name": "heating_reduced_temperature",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.operating.programs.reducedHeating",
+                        "formula": "properties['temperature']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "temperature_target",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.circuits.1.temperature",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                }
+            ]
+        },
+        {
+            "measurement": "domestic_hot_water",
+            "csvFile": "dhw.csv",
+            "tags": [
+                {
+                    "name": "installation_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareInstallation"
+                    }
+                },
+                {
+                    "name": "device_id",
+                    "value": {
+                        "source": "cfg",
+                        "feature": "vicareDevice"
+                    }
+                }
+            ],
+            "fields": [
+                {
+                    "name": "temperature_dhw_cylinder",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.dhw.sensors.temperature.dhwCylinder",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "temperature_dhw_cylinder",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.dhw.sensors.temperature.dhwCylinder",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                },
+                {
+                    "name": "temperature_target",
+                    "value": {
+                        "source": "vicare",
+                        "feature": "heating.dhw.temperature.main",
+                        "formula": "properties['value']['value']",
+                        "type": "float"
+                    }
+                }
+            ]
+        }
+    ]
+}

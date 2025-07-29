@@ -2,10 +2,11 @@
 """
 Module monitorViHP
 
-This module periodically reads data from an OpenEMS Energy Management System
+This module periodically reads data from a Viessmann Heating System
 and stores data in an InfluxDB and/or CSV files.
 
-For openEMS, see: https://github.com/OpenEMS/openems
+For Viessmann API products, see https://developer.viessmann.com/start/api-products.html
+PyViCare (https://github.com/openviess/PyViCare) is used to access the ViCare API.
 """
 
 import time
@@ -624,7 +625,7 @@ def dictFromFeatureList(features: list) -> dict:
 getCl()
 
 logger.info("=============================================================")
-logger.info("monitorViHP V1.5 started")
+logger.info("monitorViHP V2.0 started")
 logger.info("=============================================================")
 
 # Get configuration
